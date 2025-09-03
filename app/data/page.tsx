@@ -12,6 +12,23 @@ export default function DataPage() {
   const [totalAmount, setTotalAmount] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
 
+  // Check localStorage for existing authentication on component mount
+  useEffect(() => {
+    const savedAuth = localStorage.getItem('lucy_admin_auth')
+    if (savedAuth === 'true') {
+      setIsAuthenticated(true)
+    }
+  }, [])
+
+  // Save authentication state to localStorage whenever it changes
+  useEffect(() => {
+    if (isAuthenticated) {
+      localStorage.setItem('lucy_admin_auth', 'true')
+    } else {
+      localStorage.removeItem('lucy_admin_auth')
+    }
+  }, [isAuthenticated])
+
   // Fetch data when authenticated
   useEffect(() => {
     if (isAuthenticated) {
@@ -52,6 +69,12 @@ export default function DataPage() {
       toast.error('ভুল পিন নম্বর')
       setPin('')
     }
+  }
+
+  const handleLogout = () => {
+    setIsAuthenticated(false)
+    setPin('')
+    toast.success('সফলভাবে বের হয়েছেন')
   }
 
   const formatNumber = (num: number) => {
@@ -158,7 +181,7 @@ export default function DataPage() {
               </button>
               
               <button
-                onClick={() => setIsAuthenticated(false)}
+                onClick={handleLogout}
                 className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all duration-200"
               >
                 বের হন
