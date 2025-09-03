@@ -285,8 +285,14 @@ export default function Home() {
         
         {/* Mobile-optimized footer */}
         <div className="mt-8 sm:mt-12 text-center">
-          <p className="text-xs sm:text-sm text-gray-500 px-4 mb-2">
-            এই তথ্যগুলি শুধুমাত্র সচেতনতা বৃদ্ধি এবং ক্ষতিগ্রস্তদের সহায়তার জন্য সংগ্রহ করা হচ্ছে
+          <p className="text-xs sm:text-sm text-gray-500 px-4 mb-1">
+            এই তথ্যগুলো শুধু দেখানোর জন্য, মানুষ কত টাকা ক্ষতিগ্রস্ত হয়েছে এবং এখনো কত টাকা ফেরত পাওয়ার বাকি আছে।
+          </p>
+          <p className="text-xs sm:text-sm text-gray-500 px-4 mb-1">
+            সবার ব্যক্তিগত তথ্য (যেমন নাম বা মোবাইল নম্বর) গোপন রাখা হচ্ছে।
+          </p>
+          <p className="text-xs sm:text-sm text-gray-500 px-4">
+            এগুলো কোনো আইনি কাজে ব্যবহার করা হবে না। শুধু সচেতনতা বাড়ানো এবং মোট কত টাকা ক্ষতি হয়েছে তার হিসাব বোঝার জন্য এই তথ্য রাখা হচ্ছে।
           </p>
           {/* <a 
             href="/data" 
