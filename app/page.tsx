@@ -300,6 +300,21 @@ export default function Home() {
           >
             ডেটা প্রবেশ →
           </a> */}
+          <div className="mt-3">
+            <a 
+              href="/disclaimer" 
+              className="text-xs text-gray-400 hover:text-gray-600 transition-colors duration-200 mr-3"
+            >
+              Disclaimer
+            </a>
+            <span className="text-gray-300">•</span>
+            <a 
+              href="/privacy" 
+              className="text-xs text-gray-400 hover:text-gray-600 transition-colors duration-200 ml-3"
+            >
+              Privacy Policy
+            </a>
+          </div>
         </div>
       </div>
     </div>
