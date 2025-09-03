@@ -11,6 +11,8 @@ export default function DataPage() {
   const [victims, setVictims] = useState<ScamVictim[]>([])
   const [totalAmount, setTotalAmount] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
+  const [searchName, setSearchName] = useState('')
+  const [searchPhone, setSearchPhone] = useState('')
 
   // Check localStorage for existing authentication on component mount
   useEffect(() => {
@@ -45,10 +47,20 @@ export default function DataPage() {
   const fetchVictims = async () => {
     setIsLoading(true)
     try {
-      const { data, error } = await supabase
+      let query = supabase
         .from('scam_victims')
         .select('*')
         .order('created_at', { ascending: false })
+
+      if (searchName.trim()) {
+        query = query.ilike('name', `%${searchName.trim()}%`)
+      }
+
+      if (searchPhone.trim()) {
+        query = query.ilike('phone', `%${searchPhone.trim()}%`)
+      }
+
+      const { data, error } = await query
 
       if (error) throw error
       setVictims(data || [])
@@ -59,6 +71,15 @@ export default function DataPage() {
       setIsLoading(false)
     }
   }
+
+  // Debounce search
+  useEffect(() => {
+    if (!isAuthenticated) return
+    const id = setTimeout(() => {
+      fetchVictims()
+    }, 400)
+    return () => clearTimeout(id)
+  }, [searchName, searchPhone, isAuthenticated])
 
   const handlePinSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -166,11 +187,32 @@ export default function DataPage() {
 
         {/* Data Table */}
         <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-6 md:p-8">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
-            <h2 className="text-xl sm:text-2xl font-semibold text-gray-700 mb-4 sm:mb-0">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-3">
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-700">
               সমস্ত জমাকৃত তথ্য
             </h2>
-            
+
+            <div className="flex flex-col sm:flex-row gap-2 sm:items-center">
+              <input
+                type="text"
+                value={searchName}
+                onChange={(e) => setSearchName(e.target.value)}
+                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm w-full sm:w-56"
+                placeholder="নাম দিয়ে খুঁজুন"
+              />
+              <input
+                type="text"
+                value={searchPhone}
+                onChange={(e) => {
+                  const v = e.target.value
+                  if (/^\d{0,11}$/.test(v)) setSearchPhone(v)
+                }}
+                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm w-full sm:w-56"
+                placeholder="ফোন দিয়ে খুঁজুন"
+                maxLength={11}
+              />
+            </div>
+
             <div className="flex space-x-2">
               <button
                 onClick={fetchVictims}

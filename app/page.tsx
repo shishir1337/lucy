@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { toast } from 'sonner'
 import { supabase } from '@/utils/supabase/client'
-import LiveVisitorCount from '@/app/components/LiveVisitorCount'
 import { ScamVictim, ScamVictimInput } from '@/types/database'
 
 export default function Home() {
@@ -151,9 +150,6 @@ export default function Home() {
             যদি আপনার ফারহানা হক লুসির কাছে টাকা পাওনা থাকে, অনুগ্রহ করে আপনার তথ্য আমাদের সাথে শেয়ার করুন। 
             আসুন, আমরা সবাই মিলে জেনে নেই কতজন মানুষ এভাবে ক্ষতিগ্রস্ত হয়েছেন।
           </p>
-          <div className="mt-4 flex justify-center">
-            <LiveVisitorCount />
-          </div>
         </div>
 
         {/* Total Amount Display */}
