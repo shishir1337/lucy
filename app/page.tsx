@@ -288,12 +288,12 @@ export default function Home() {
           <p className="text-xs sm:text-sm text-gray-500 px-4 mb-2">
             এই তথ্যগুলি শুধুমাত্র সচেতনতা বৃদ্ধি এবং ক্ষতিগ্রস্তদের সহায়তার জন্য সংগ্রহ করা হচ্ছে
           </p>
-          <a 
+          {/* <a 
             href="/data" 
             className="text-xs text-gray-400 hover:text-gray-600 transition-colors duration-200"
           >
             ডেটা প্রবেশ →
-          </a>
+          </a> */}
         </div>
       </div>
     </div>
