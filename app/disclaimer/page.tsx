@@ -10,7 +10,7 @@ export default function DisclaimerPage() {
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">Disclaimer</h1>
 
         <p className="text-gray-700 mb-4">
-          The names <strong>Farhana Haque Lucy</strong> and <strong>Pretty Please</strong> used on this website refer to fictional characters and entities created solely for illustrative and awareness purposes.
+          The names <strong>Farhna Haque Lusy</strong> and <strong>Preety Please</strong> used on this website refer to fictional characters and entities created solely for illustrative and awareness purposes.
         </p>
         <p className="text-gray-700 mb-4">
           These names are not based on any real persons, businesses, or organizations. Any resemblance to actual individuals, companies, or events is purely coincidental and unintentional.
@@ -33,7 +33,7 @@ export default function DisclaimerPage() {
         </p>
         <p className="text-gray-700 mb-4">By visiting and using this website, you acknowledge and agree that:</p>
         <ul className="list-disc pl-6 text-gray-700 space-y-1">
-          <li>The names Farhana Haque Lucy and Pretty Please are fictional</li>
+          <li>The names Farhna Haque Lusy and Preety Please are fictional</li>
           <li>The displayed information is for awareness purposes only</li>
           <li>This platform bears no responsibility for assumptions, interpretations, or misuse of the data</li>
         </ul>

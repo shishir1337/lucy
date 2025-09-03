@@ -157,7 +157,7 @@ export default function DataPage() {
         {/* Header */}
         <div className="text-center mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-red-700 mb-3 sm:mb-4">
-            ফারহানা হক লুসি - ভিকটিম ডেটা
+            ফারহনা হক লুসি - ভিকটিম ডেটা
           </h1>
           <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto">
             সমস্ত জমাকৃত তথ্যের বিস্তারিত তালিকা

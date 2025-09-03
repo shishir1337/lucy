@@ -144,10 +144,10 @@ export default function Home() {
         {/* Header */}
         <div className="text-center mb-6 sm:mb-8 md:mb-12">
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-red-700 mb-3 sm:mb-4 leading-tight px-2">
-            আপনি ফারহানা হক লুসি এর কাছে থেকে কত টাকা পাবেন
+            আপনি ফারহনা হক লুসি এর কাছে থেকে কত টাকা পাবেন
           </h1>
           <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto px-3 leading-relaxed">
-            যদি আপনার ফারহানা হক লুসির কাছে টাকা পাওনা থাকে, অনুগ্রহ করে আপনার তথ্য আমাদের সাথে শেয়ার করুন। 
+            যদি আপনার ফারহনা হক লুসির কাছে টাকা পাওনা থাকে, অনুগ্রহ করে আপনার তথ্য আমাদের সাথে শেয়ার করুন। 
             আসুন, আমরা সবাই মিলে জেনে নেই কতজন মানুষ এভাবে ক্ষতিগ্রস্ত হয়েছেন।
           </p>
         </div>
