@@ -58,11 +58,7 @@ export default function Home() {
       return
     }
 
-    // Validate phone number format (must start with 01 and be exactly 11 digits)
-    if (!/^01\d{9}$/.test(formData.phone)) {
-      toast.error('ফোন নম্বর ০১ দিয়ে শুরু হয়ে ঠিক ১১টি সংখ্যা হতে হবে')
-      return
-    }
+    // Allow any phone number format; only non-empty is required
 
     setIsSubmitting(true)
 
@@ -140,16 +136,16 @@ export default function Home() {
             </div>
           ) : (
             <>
-              {/* <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-red-600 mb-2 leading-none px-2">
+              <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-red-600 mb-2 leading-none px-2">
                 ৳{formatNumber(totalAmount)}
               </div>
               <p className="text-sm sm:text-base text-gray-600">
                 মোট <span className="font-semibold text-red-600">{victimCount}</span> জন ব্যক্তি ক্ষতিগ্রস্ত
-              </p> */}
-
-              <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-700 mb-2 leading-none px-2">
-                মোট <span className="font-semibold text-red-600">{victimCount} </span>জন ব্যক্তি ক্ষতিগ্রস্ত
               </p>
+
+              {/* <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-700 mb-2 leading-none px-2">
+                মোট <span className="font-semibold text-red-600">{victimCount} </span>জন ব্যক্তি ক্ষতিগ্রস্ত
+              </p> */}
             </>
           )}
         </div>
@@ -189,16 +185,11 @@ export default function Home() {
                 id="phone"
                 value={formData.phone}
                 onChange={(e) => {
-                  const value = e.target.value;
-                  // Only allow numbers and limit to 11 digits
-                  if (/^\d{0,11}$/.test(value)) {
-                    setFormData({ ...formData, phone: value });
-                  }
+                  const value = e.target.value
+                  setFormData({ ...formData, phone: value })
                 }}
                 className="w-full px-3 sm:px-4 py-3 sm:py-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent text-base"
                 placeholder="আপনার ফোন নম্বর"
-                pattern="01\d{9}"
-                maxLength={11}
                 required
               />
             </div>
