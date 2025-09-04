@@ -14,6 +14,7 @@ export default function Home() {
   const [totalAmount, setTotalAmount] = useState(0)
   const [victimCount, setVictimCount] = useState(0)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isStatsLoading, setIsStatsLoading] = useState(true)
 
   // Add viewport meta tag for mobile optimization
   useEffect(() => {
@@ -34,6 +35,7 @@ export default function Home() {
 
   // No client-side aggregation; stats fetched from server
   const fetchStats = async () => {
+    setIsStatsLoading(true)
     try {
       const res = await fetch('/api/stats')
       if (!res.ok) throw new Error('Failed')
@@ -43,6 +45,8 @@ export default function Home() {
     } catch (error) {
       console.error('Error fetching stats:', error)
       toast.error('ডেটা লোড করতে সমস্যা হয়েছে')
+    } finally {
+      setIsStatsLoading(false)
     }
   }
 
@@ -129,12 +133,21 @@ export default function Home() {
           <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-700 mb-3 sm:mb-4">
             মোট ক্ষতিগ্রস্ত টাকার পরিমাণ
           </h2>
-          <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-red-600 mb-2 leading-none px-2">
-            ৳{formatNumber(totalAmount)}
-          </div>
-          <p className="text-sm sm:text-base text-gray-600">
-            মোট <span className="font-semibold text-red-600">{victimCount}</span> জন ব্যক্তি ক্ষতিগ্রস্ত
-          </p>
+          {isStatsLoading ? (
+            <div className="flex flex-col items-center">
+              <div className="h-10 sm:h-12 md:h-14 w-40 sm:w-56 md:w-64 bg-gray-200 rounded animate-pulse mb-3"></div>
+              <div className="h-4 sm:h-5 w-48 sm:w-64 bg-gray-200 rounded animate-pulse"></div>
+            </div>
+          ) : (
+            <>
+              <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-red-600 mb-2 leading-none px-2">
+                ৳{formatNumber(totalAmount)}
+              </div>
+              <p className="text-sm sm:text-base text-gray-600">
+                মোট <span className="font-semibold text-red-600">{victimCount}</span> জন ব্যক্তি ক্ষতিগ্রস্ত
+              </p>
+            </>
+          )}
         </div>
 
         {/* Form */}

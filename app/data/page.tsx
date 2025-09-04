@@ -177,18 +177,26 @@ export default function DataPage() {
             <h3 className="text-sm sm:text-base font-medium text-gray-700 mb-2">
               মোট ভিকটিম
             </h3>
-            <div className="text-2xl sm:text-3xl font-bold text-red-600">
-              {victims.length}
-            </div>
+            {isLoading ? (
+              <div className="h-7 sm:h-8 w-24 sm:w-28 bg-gray-200 rounded animate-pulse mx-auto"></div>
+            ) : (
+              <div className="text-2xl sm:text-3xl font-bold text-red-600">
+                {victims.length}
+              </div>
+            )}
           </div>
           
           <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 text-center">
             <h3 className="text-sm sm:text-base font-medium text-gray-700 mb-2">
               মোট ক্ষতিগ্রস্ত টাকা
             </h3>
-            <div className="text-2xl sm:text-3xl font-bold text-red-600">
-              ৳{formatNumber(totalAmount)}
-            </div>
+            {isLoading ? (
+              <div className="h-7 sm:h-8 w-32 sm:w-40 bg-gray-200 rounded animate-pulse mx-auto"></div>
+            ) : (
+              <div className="text-2xl sm:text-3xl font-bold text-red-600">
+                ৳{formatNumber(totalAmount)}
+              </div>
+            )}
           </div>
         </div>
 
