@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { toast } from 'sonner'
-import { supabase } from '@/utils/supabase/client'
 import { ScamVictim } from '@/types/database'
 
 export default function DataPage() {
@@ -48,23 +47,17 @@ export default function DataPage() {
   const fetchVictims = async () => {
     setIsLoading(true)
     try {
-      let query = supabase
-        .from('scam_victims')
-        .select('*')
-        .order('created_at', { ascending: false })
+      const params = new URLSearchParams()
+      if (searchName.trim()) params.set('name', searchName.trim())
+      if (searchPhone.trim()) params.set('phone', searchPhone.trim())
 
-      if (searchName.trim()) {
-        query = query.ilike('name', `%${searchName.trim()}%`)
+      const res = await fetch(`/api/victims${params.toString() ? `?${params.toString()}` : ''}`)
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}))
+        throw new Error(body.error || 'Failed to load data')
       }
-
-      if (searchPhone.trim()) {
-        query = query.ilike('phone', `%${searchPhone.trim()}%`)
-      }
-
-      const { data, error } = await query
-
-      if (error) throw error
-      setVictims(data || [])
+      const body = await res.json()
+      setVictims(body.data || [])
     } catch (error) {
       console.error('Error fetching victims:', error)
       toast.error('ডেটা লোড করতে সমস্যা হয়েছে')
@@ -83,18 +76,30 @@ export default function DataPage() {
     return () => clearTimeout(id)
   }, [searchName, searchPhone, isAuthenticated])
 
-  const handlePinSubmit = (e: React.FormEvent) => {
+  const handlePinSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (pin === '1337') {
+    try {
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pin }),
+      })
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}))
+        throw new Error(body.error || 'Invalid PIN')
+      }
       setIsAuthenticated(true)
       toast.success('সফলভাবে প্রবেশ করা হয়েছে')
-    } else {
+    } catch (err) {
       toast.error('ভুল পিন নম্বর')
       setPin('')
     }
   }
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/admin/logout', { method: 'POST' })
+    } catch {}
     setIsAuthenticated(false)
     setPin('')
     toast.success('সফলভাবে বের হয়েছেন')
