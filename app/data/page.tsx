@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { toast } from 'sonner'
 import { ScamVictim } from '@/types/database'
 
@@ -30,13 +30,7 @@ export default function DataPage() {
     }
   }, [isAuthenticated])
 
-  // Fetch data when authenticated
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    if (isAuthenticated) {
-      fetchVictims()
-    }
-  }, [isAuthenticated])
+  
 
   // Calculate total amount whenever victims data changes
   useEffect(() => {
@@ -44,7 +38,7 @@ export default function DataPage() {
     setTotalAmount(total)
   }, [victims])
 
-  const fetchVictims = async () => {
+  const fetchVictims = useCallback(async () => {
     setIsLoading(true)
     try {
       const params = new URLSearchParams()
@@ -64,17 +58,25 @@ export default function DataPage() {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [searchName, searchPhone])
 
-  // Debounce search
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // Fetch data when authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchVictims()
+    }
+  }, [isAuthenticated, fetchVictims])
+
+  // Debounce search (only when there is a query)
   useEffect(() => {
     if (!isAuthenticated) return
+    const hasQuery = searchName.trim() !== '' || searchPhone.trim() !== ''
+    if (!hasQuery) return
     const id = setTimeout(() => {
       fetchVictims()
     }, 400)
     return () => clearTimeout(id)
-  }, [searchName, searchPhone, isAuthenticated])
+  }, [searchName, searchPhone, isAuthenticated, fetchVictims])
 
   const handlePinSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -90,7 +92,7 @@ export default function DataPage() {
       }
       setIsAuthenticated(true)
       toast.success('সফলভাবে প্রবেশ করা হয়েছে')
-    } catch (err) {
+    } catch {
       toast.error('ভুল পিন নম্বর')
       setPin('')
     }
