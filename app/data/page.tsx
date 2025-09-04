@@ -32,6 +32,7 @@ export default function DataPage() {
   }, [isAuthenticated])
 
   // Fetch data when authenticated
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (isAuthenticated) {
       fetchVictims()
@@ -73,6 +74,7 @@ export default function DataPage() {
   }
 
   // Debounce search
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!isAuthenticated) return
     const id = setTimeout(() => {

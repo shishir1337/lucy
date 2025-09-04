@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { toast } from 'sonner'
 import { supabase } from '@/utils/supabase/client'
-import { ScamVictim, ScamVictimInput } from '@/types/database'
+import { ScamVictimInput } from '@/types/database'
 
 export default function Home() {
   const [formData, setFormData] = useState<ScamVictimInput>({
@@ -11,8 +11,8 @@ export default function Home() {
     phone: '',
     total_amount: 0
   })
-  const [victims, setVictims] = useState<ScamVictim[]>([])
   const [totalAmount, setTotalAmount] = useState(0)
+  const [victimCount, setVictimCount] = useState(0)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   // Add viewport meta tag for mobile optimization
@@ -27,28 +27,21 @@ export default function Home() {
     }
   }, [])
 
-  // Fetch data on component mount
+  // Fetch stats on component mount
   useEffect(() => {
-    fetchVictims()
+    fetchStats()
   }, [])
 
-  // Calculate total amount whenever victims data changes
-  useEffect(() => {
-    const total = victims.reduce((sum, victim) => sum + victim.total_amount, 0)
-    setTotalAmount(total)
-  }, [victims])
-
-  const fetchVictims = async () => {
+  // No client-side aggregation; stats fetched from server
+  const fetchStats = async () => {
     try {
-      const { data, error } = await supabase
-        .from('scam_victims')
-        .select('*')
-        .order('created_at', { ascending: false })
-
-      if (error) throw error
-      setVictims(data || [])
+      const res = await fetch('/api/stats')
+      if (!res.ok) throw new Error('Failed')
+      const json = await res.json()
+      setTotalAmount(json.totalAmount || 0)
+      setVictimCount(json.totalVictims || 0)
     } catch (error) {
-      console.error('Error fetching victims:', error)
+      console.error('Error fetching stats:', error)
       toast.error('ডেটা লোড করতে সমস্যা হয়েছে')
     }
   }
@@ -70,34 +63,7 @@ export default function Home() {
     setIsSubmitting(true)
 
     try {
-      // Check if phone number already exists in database
-      const { data: existingVictim, error: checkError } = await supabase
-        .from('scam_victims')
-        .select('id, name, total_amount')
-        .eq('phone', formData.phone)
-        .single()
-
-      if (checkError && checkError.code !== 'PGRST116') { // PGRST116 = no rows returned
-        throw checkError
-      }
-
-      if (existingVictim) {
-        // Phone number already exists
-        toast.error(
-          `এই ফোন নম্বরটি ইতিমধ্যে জমা হয়েছে।`,
-          {
-            duration: 6000, // Show for 6 seconds
-            action: {
-              label: 'ঠিক আছে',
-              onClick: () => {}
-            }
-          }
-        )
-        setIsSubmitting(false)
-        return
-      }
-
-      // If no duplicate found, proceed with insertion
+      // Attempt insertion; rely on UNIQUE(phone) to prevent duplicates
       const { error } = await supabase
         .from('scam_victims')
         .insert([formData])
@@ -124,11 +90,17 @@ export default function Home() {
         total_amount: 0
       })
 
-      // Refresh data
-      fetchVictims()
-    } catch (error) {
+      // Refresh stats
+      fetchStats()
+    } catch (error: unknown) {
       console.error('Error in form submission:', error)
-      toast.error('তথ্য জমা করতে সমস্যা হয়েছে')
+      const code = typeof error === 'object' && error && 'code' in error ? (error as { code?: string }).code : undefined
+      const message = typeof error === 'object' && error && 'message' in error ? String((error as { message?: unknown }).message) : ''
+      if (code === '23505' || message.toLowerCase().includes('duplicate')) {
+        toast.error('এই ফোন নম্বরটি ইতিমধ্যে জমা হয়েছে।')
+      } else {
+        toast.error('তথ্য জমা করতে সমস্যা হয়েছে')
+      }
     } finally {
       setIsSubmitting(false)
     }
@@ -161,7 +133,7 @@ export default function Home() {
             ৳{formatNumber(totalAmount)}
           </div>
           <p className="text-sm sm:text-base text-gray-600">
-            মোট <span className="font-semibold text-red-600">{victims.length}</span> জন ব্যক্তি ক্ষতিগ্রস্ত
+            মোট <span className="font-semibold text-red-600">{victimCount}</span> জন ব্যক্তি ক্ষতিগ্রস্ত
           </p>
         </div>
 
@@ -225,7 +197,7 @@ export default function Home() {
                 onChange={(e) => setFormData({ ...formData, total_amount: Number(e.target.value) })}
                 className="w-full px-3 sm:px-4 py-3 sm:py-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent text-base"
                 placeholder="টাকার পরিমাণ"
-                min="0"
+                min="1"
                 required
               />
             </div>
