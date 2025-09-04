@@ -130,9 +130,9 @@ export default function Home() {
 
         {/* Total Amount Display */}
         <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl p-4 sm:p-6 md:p-8 mb-6 sm:mb-8 text-center">
-          <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-700 mb-3 sm:mb-4">
+          {/* <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-700 mb-3 sm:mb-4">
             মোট ক্ষতিগ্রস্ত টাকার পরিমাণ
-          </h2>
+          </h2> */}
           {isStatsLoading ? (
             <div className="flex flex-col items-center">
               <div className="h-10 sm:h-12 md:h-14 w-40 sm:w-56 md:w-64 bg-gray-200 rounded animate-pulse mb-3"></div>
@@ -140,11 +140,15 @@ export default function Home() {
             </div>
           ) : (
             <>
-              <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-red-600 mb-2 leading-none px-2">
+              {/* <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-red-600 mb-2 leading-none px-2">
                 ৳{formatNumber(totalAmount)}
               </div>
               <p className="text-sm sm:text-base text-gray-600">
                 মোট <span className="font-semibold text-red-600">{victimCount}</span> জন ব্যক্তি ক্ষতিগ্রস্ত
+              </p> */}
+
+              <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-700 mb-2 leading-none px-2">
+                মোট <span className="font-semibold text-red-600">{victimCount} </span>জন ব্যক্তি ক্ষতিগ্রস্ত
               </p>
             </>
           )}
