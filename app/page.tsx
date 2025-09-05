@@ -116,11 +116,10 @@ export default function Home() {
         {/* Header */}
         <div className="text-center mb-6 sm:mb-8 md:mb-12">
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-red-700 mb-3 sm:mb-4 leading-tight px-2">
-            আপনি ফারহনা হক লুসি এর কাছে থেকে কত টাকা পাবেন
+          আপনিও কি ভিকটিম ? 
           </h1>
           <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto px-3 leading-relaxed">
-            যদি আপনার ফারহনা হক লুসির কাছে টাকা পাওনা থাকে, অনুগ্রহ করে আপনার তথ্য আমাদের সাথে শেয়ার করুন। 
-            আসুন, আমরা সবাই মিলে জেনে নেই কতজন মানুষ এভাবে ক্ষতিগ্রস্ত হয়েছেন।
+            অনুগ্রহ করে আপনার তথ্য আমাদের সাথে শেয়ার করুন। আসুন, আমরা সবাই মিলে জেনে নেই কতজন মানুষ এভাবে ক্ষতিগ্রস্ত হয়েছেন।
           </p>
         </div>
 
@@ -271,30 +270,6 @@ export default function Home() {
           <p className="text-xs sm:text-sm text-gray-500 px-4 mb-1">
             সবার ব্যক্তিগত তথ্য (যেমন নাম বা মোবাইল নম্বর) গোপন রাখা হচ্ছে।
           </p>
-          <p className="text-xs sm:text-sm text-gray-500 px-4">
-            এগুলো কোনো আইনি কাজে ব্যবহার করা হবে না। শুধু সচেতনতা বাড়ানো এবং মোট কত টাকা ক্ষতি হয়েছে তার হিসাব বোঝার জন্য এই তথ্য রাখা হচ্ছে।
-          </p>
-          {/* <a 
-            href="/data" 
-            className="text-xs text-gray-400 hover:text-gray-600 transition-colors duration-200"
-          >
-            ডেটা প্রবেশ →
-          </a> */}
-          <div className="mt-3">
-            <a 
-              href="/disclaimer" 
-              className="text-xs text-gray-400 hover:text-gray-600 transition-colors duration-200 mr-3"
-            >
-              Disclaimer
-            </a>
-            <span className="text-gray-300">•</span>
-            <a 
-              href="/privacy" 
-              className="text-xs text-gray-400 hover:text-gray-600 transition-colors duration-200 ml-3"
-            >
-              Privacy Policy
-            </a>
-          </div>
         </div>
       </div>
     </div>
